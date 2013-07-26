@@ -1,0 +1,347 @@
+{
+    "capabilities": [
+        {
+            "name": "psk:DocumentCollate",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Collate Copies",
+            "type": "Feature",
+            "options": [
+                {
+                    "name": "psk:Collated",
+                    "psk:DisplayName": "Yes"
+                },
+                {
+                    "default": true,
+                    "name": "psk:Uncollated",
+                    "psk:DisplayName": "No"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageOutputColor",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Color",
+            "type": "Feature",
+            "options": [
+                {
+                    "name": "psk:Monochrome",
+                    "psk:DisplayName": "Black \u0026 White"
+                },
+                {
+                    "default": true,
+                    "name": "psk:Color",
+                    "psk:DisplayName": "Color"
+                }
+            ]
+        },
+        {
+            "psf:DataType": "xsd:integer",
+            "psf:MinValue": "1",
+            "name": "psk:JobCopiesAllDocuments",
+            "psf:UnitType": "copies",
+            "psk:DisplayName": "Copy Count",
+            "type": "ParameterDef",
+            "psf:DefaultValue": "1",
+            "psf:MaxValue": "999"
+        },
+        {
+            "name": "psk:PageResolution",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Resolution",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "name": "psk:ResolutionX:600;psk:ResolutionY:600;",
+                    "psk:ResolutionX": "600",
+                    "psk:DisplayName": "600 x 600",
+                    "psk:ResolutionY": "600"
+                }
+            ]
+        },
+        {
+            "name": "psk:JobDuplexAllDocumentsContiguously",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Print on Both Sides",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "name": "psk:OneSided",
+                    "psk:DisplayName": "None"
+                },
+                {
+                    "name": "psk:TwoSidedShortEdge",
+                    "psk:DisplayName": "Flip on Short Edge"
+                },
+                {
+                    "name": "psk:TwoSidedLongEdge",
+                    "psk:DisplayName": "Flip on Long Edge"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageMediaSize",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Paper Size",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "psk:MediaSizeWidth": "215900",
+                    "name": "psk:NorthAmericaLetter",
+                    "psk:MediaSizeHeight": "279400",
+                    "psk:DisplayName": "Letter (8.5\" x 11\")"
+                },
+                {
+                    "psk:MediaSizeWidth": "210000",
+                    "name": "psk:ISOA4",
+                    "psk:MediaSizeHeight": "297000",
+                    "psk:DisplayName": "A4 (210 x 297 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "257000",
+                    "name": "psk:JISB4",
+                    "psk:MediaSizeHeight": "364000",
+                    "psk:DisplayName": "B4 JIS (257 x 364 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "182000",
+                    "name": "psk:JISB5",
+                    "psk:MediaSizeHeight": "257000",
+                    "psk:DisplayName": "B5 JIS (182 x 257 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "128000",
+                    "name": "psk:JISB6",
+                    "psk:MediaSizeHeight": "182000",
+                    "psk:DisplayName": "B6 JIS (128 x 182 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "148000",
+                    "name": "psk:ISOA5",
+                    "psk:MediaSizeHeight": "210000",
+                    "psk:DisplayName": "A5 (148 x 210 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "105000",
+                    "name": "psk:ISOA6",
+                    "psk:MediaSizeHeight": "148000",
+                    "psk:DisplayName": "A6 (105 x 148 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "215900",
+                    "name": "psk:NorthAmericaLegal",
+                    "psk:MediaSizeHeight": "355600",
+                    "psk:DisplayName": "Legal (8 1/2\" x 14\")"
+                },
+                {
+                    "psk:MediaSizeWidth": "184200",
+                    "name": "psk:NorthAmericaExecutive",
+                    "psk:MediaSizeHeight": "266700",
+                    "psk:DisplayName": "Executive (7 1/4\" x 10 1/2\")"
+                },
+                {
+                    "psk:MediaSizeWidth": "139700",
+                    "name": "psk:NorthAmericaStatement",
+                    "psk:MediaSizeHeight": "215900",
+                    "psk:DisplayName": "5 1/2\" x 8 1/2\""
+                },
+                {
+                    "psk:MediaSizeWidth": "104700",
+                    "name": "psk:NorthAmericaNumber10Envelope",
+                    "psk:MediaSizeHeight": "241300",
+                    "psk:DisplayName": "Com10 Env. (4 1/8\" x 9 1/2\")"
+                },
+                {
+                    "psk:MediaSizeWidth": "98400",
+                    "name": "psk:NorthAmericaMonarchEnvelope",
+                    "psk:MediaSizeHeight": "190500",
+                    "psk:DisplayName": "Monarch Env. (3 7/8\" x 7 1/2\")"
+                },
+                {
+                    "psk:MediaSizeWidth": "110000",
+                    "name": "psk:ISODLEnvelope",
+                    "psk:MediaSizeHeight": "220000",
+                    "psk:DisplayName": "DL Env. (110 x 220 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "114000",
+                    "name": "psk:ISOC6Envelope",
+                    "psk:MediaSizeHeight": "162000",
+                    "psk:DisplayName": "C6 Env. (114 x 162 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "162000",
+                    "name": "psk:ISOC5Envelope",
+                    "psk:MediaSizeHeight": "229000",
+                    "psk:DisplayName": "C5 Env. (162 x 229 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "203200",
+                    "name": "ns0000:User0000000285",
+                    "psk:MediaSizeHeight": "330200",
+                    "psk:DisplayName": "8\" x 13\""
+                },
+                {
+                    "psk:MediaSizeWidth": "215900",
+                    "name": "ns0000:User0000000286",
+                    "psk:MediaSizeHeight": "330200",
+                    "psk:DisplayName": "8 1/2\" x 13\""
+                },
+                {
+                    "psk:MediaSizeWidth": "209500",
+                    "name": "psk:OtherMetricFolio",
+                    "psk:MediaSizeHeight": "330200",
+                    "psk:DisplayName": "8 1/4\" x 13\""
+                },
+                {
+                    "psk:MediaSizeWidth": "267000",
+                    "name": "ns0000:User0000000287",
+                    "psk:MediaSizeHeight": "390000",
+                    "psk:DisplayName": "8K (267 x 390 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "195000",
+                    "name": "psk:PRC16K",
+                    "psk:MediaSizeHeight": "267000",
+                    "psk:DisplayName": "16K (195 x 267 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "297000",
+                    "name": "psk:ISOA3",
+                    "psk:MediaSizeHeight": "420000",
+                    "psk:DisplayName": "A3 (297 x 420 mm)"
+                },
+                {
+                    "psk:MediaSizeWidth": "279400",
+                    "name": "psk:NorthAmerica11x17",
+                    "psk:MediaSizeHeight": "431800",
+                    "psk:DisplayName": "11\" x 17\""
+                },
+                {
+                    "psk:MediaSizeWidth": "90000",
+                    "name": "ns0000:User0000000284",
+                    "psk:MediaSizeHeight": "148000",
+                    "psk:DisplayName": "Custom Paper Size"
+                },
+                {
+                    "psk:MediaSizeWidth": "215900",
+                    "name": "ns0000:User0000000256",
+                    "psk:MediaSizeHeight": "279400",
+                    "psk:DisplayName": "Custom"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageOrientation",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Orientation",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "name": "psk:Portrait",
+                    "psk:DisplayName": "Portrait"
+                },
+                {
+                    "name": "psk:Landscape",
+                    "psk:DisplayName": "Landscape"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageICMRenderingIntent",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "ICM Intent",
+            "type": "Feature",
+            "options": [
+                {
+                    "name": "psk:AbsoluteColorimetric",
+                    "psk:DisplayName": "Colormetric (Matching a particular color)"
+                },
+                {
+                    "name": "psk:RelativeColorimetric",
+                    "psk:DisplayName": "Colormetric (Matching a particular color)"
+                },
+                {
+                    "name": "psk:Photographs",
+                    "psk:DisplayName": "Contrast (Photographic images)"
+                },
+                {
+                    "default": true,
+                    "name": "psk:BusinessGraphics",
+                    "psk:DisplayName": "Saturation (Presentation grahics)"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageColorManagement",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "ICM Method",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "name": "psk:None",
+                    "psk:DisplayName": "None"
+                },
+                {
+                    "name": "psk:System"
+                },
+                {
+                    "name": "psk:Driver"
+                },
+                {
+                    "name": "psk:Device"
+                }
+            ]
+        },
+        {
+            "name": "psk:JobInputBin",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "Paper Source",
+            "type": "Feature",
+            "options": [
+                {
+                    "default": true,
+                    "name": "ns0000:Auto",
+                    "psk:DisplayName": "Auto Tray Select"
+                },
+                {
+                    "name": "ns0000:Upper",
+                    "psk:DisplayName": "Tray 1"
+                },
+                {
+                    "psk:FeedType": "psk:Manual",
+                    "name": "psk:Manual",
+                    "psk:DisplayName": "Bypass Tray"
+                }
+            ]
+        },
+        {
+            "name": "psk:PageTrueTypeFontMode",
+            "psf:SelectionType": "psk:PickOne",
+            "psk:DisplayName": "TrueType Font",
+            "type": "Feature",
+            "options": [
+                {
+                    "name": "psk:RenderAsBitmap",
+                    "psk:DisplayName": "Print as Graphic"
+                },
+                {
+                    "default": true,
+                    "name": "psk:DownloadAsRasterFont",
+                    "psk:DisplayName": "Download as Softfont"
+                }
+            ]
+        },
+        {
+            "psf:DataType": "xsd:string",
+            "name": "ns0000:PageDevmodeSnapshot",
+            "psf:UnitType": "base64",
+            "type": "ParameterDef",
+            "psf:DefaultValue": "UgBJAEMATwBIACAAQQBmAGkAYwBpAG8AIABTAFAAIABDADIANAAwAEQATgAgAEQARABTAFQAAAAAAAAAAAAAAAEEOADcAPgIA9+AAwEAAQDqCm8IZAABAAcAWAICAAEAWAIDAAAATABlAHQAdABlAHIAIAAoADgALgA1ACIAIAB4ACAAMQAxACIAKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAFAAAABEdWRrAQAAABAQAAA8AFUAbgB0AGkAdABsAGUAZAA+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWAIAAAEAAAACAAAAAAAAAAAAAAAAAAAAAQABAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAABAAAASIoAALzjAACQXwEAIEICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAEAAQAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyADIAMgAyADIAMgAQJxAnECcBAAAAAAAAAAIAAAABAAAAAwAAAAEAAAABAAAAAQAAAAAAAAAAAAAAQwA6AFwAVwBpAG4AZABvAHcAcwBcAHMAeQBzAHQAZQBtADMAMgBcAEwAQQA2AEMAXABPAFYARQBSAEwAQQBZAC4ATwBWAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPb///8AAAAAAAAAAAAAAAAOAAAASAAAAAAAYwA6AFwAdQBpAC4AcAByAG4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABjADoAXAB0AGUAeAB0AC4AdAB4AHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAABkAAAAZAAAAGQAAAACAAAAAAAAAAAAAQAAAAAAAAAHAAAAAAAAAAAAAQAAAAcAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAgAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAABkZGQAZGRkAAAAAAAAAAA\u003d"
+        }
+    ]
+}
