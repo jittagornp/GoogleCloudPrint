@@ -1,12 +1,12 @@
 GoogleCloudPrint
 ================
 
-Google Cloud Print (GCP) For Java
+Google Cloud Print (GCP) For Java<br/>
 
-now, it's not complete.
-have problem about register printer (printer capabilities)
+now, it's not complete.<br/>
+have problem about register printer (printer capabilities)<br/><br/>
 
-develop by jittagorn pitakmetagoon
-developer in thailand
-work at Geniustree Co., Ltd
-blog : na5cent.blogspot.com
+develop by <b>jittagorn pitakmetagoon</b><br/>
+java developer thailand<br/>
+work at Geniustree Co., Ltd<br/>
+blog : <a href="http://na5cent.blogspot.com">na5cent.blogspot.com</a><br/>
