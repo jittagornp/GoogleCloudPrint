@@ -9,7 +9,7 @@ have problem about register printer (printer capabilities)<br/><br/>
 document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
 
 <h3>Example</h3>
-<b>connect to google cloud print</b>
+<b>Connect to google cloud print</b>
 ```java
 String email = "YOUR_GOOGLE_EMAIL";
 String password = "YOUR_GOOGLE_PASSWORD";
@@ -19,7 +19,11 @@ GoogleCloudPrint cloudPrint = new GoogleCloudPrint();
 //connect to google cloud print
 cloudPrint.connect(email, password, "geniustree-cloudprint-1.0");
 ```
-<b>subscribe job</b> (listener job from google talk notification)
+<b>Disconnect from google cloud print</b>
+```java
+cloudPrint.disconnect();
+```
+<b>Subscribe job</b> (listener job from google talk notification)
 ```java
 cloudPrint.subScribeJob(new JobListener() {
     //
@@ -81,7 +85,7 @@ cloudPrint.subScribeJob(new JobListener() {
     }
 });
 ```
-<b>submit job</b> (send job to google cloud print)
+<b>Submit job</b> (send job to google cloud print)
 ```java
 InputStream jsonInputStream = null;
 InputStream imageInputStream = null;
@@ -95,6 +99,8 @@ try {
 
     String json = gson.toJson(ticket);
     LOG.debug("json => {}", json);
+    
+    //crate job
     SubmitJob submitJob = new SubmitJob();
     submitJob.setContent(content);
     submitJob.setContentType("image/png");
@@ -103,6 +109,7 @@ try {
     submitJob.setTicket(ticket);
     submitJob.setTitle("testImage.png");
 
+    //send job
     SubmitJobResponse response = cloudPrint.submitJob(submitJob);
     LOG.debug("submit job response => {}", response.isSuccess() + "," + response.getMessage());
     LOG.debug("submit job id => {}", response.getJob().getId());
@@ -130,7 +137,19 @@ try {
     }
 }
 ```
-<b>share printer</b>
+<b>Search printer</b>
+```java
+//search all printers which name is "fax"
+SearchPrinterResponse response = cloudPrint.searchPrinter("fax", PrinterStatus.ALL);
+if (!response.isSuccess()) {
+    return;
+}
+
+for (Printer printer : response.getPrinters()) {
+    LOG.debug("printer => {}", printer);
+}
+```
+<b>Share printer</b>
 ```java
 SharePrinterResponse response = cloudPrint.sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "jittagorn@geniustree.co.th");
 LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.getMessage());
