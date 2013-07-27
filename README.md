@@ -140,7 +140,7 @@ try {
     }
 }
 ```
-<Delete job>
+<b>Delete job</b>
 ```java
 //jobId generate by google cloud print
 
