@@ -140,6 +140,21 @@ try {
     }
 }
 ```
+<b>Update printer informaton</b>
+```java
+//printer id = "a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b"
+
+Printer printer = new Printer();
+printer.setId("a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b");
+printer.setName("Adobe PDF2"); //set new name
+
+UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
+if (!response.isSuccess()) {
+    return;
+}
+
+LOG.debug("update printer response => {}", response.isSuccess() + ", " + response.getMessage());
+```
 <b>Search printer</b>
 ```java
 //search all printers which name is "fax"
@@ -158,7 +173,7 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer => {}", printer);
 }
 ```
-<b>Get job</b>(print job)<br/>
+<b>Get job</b> (print job)<br/>
 get all jobs
 ```java
 JobResponse response = cloudPrint.getJobs();
