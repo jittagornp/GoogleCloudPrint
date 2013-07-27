@@ -173,6 +173,34 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer => {}", printer);
 }
 ```
+<b>Get printer information</a>
+```java
+//printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
+
+PrinterInformationResponse response = cloudPrint.getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445");
+if (!response.isSuccess()) {
+    return;
+}
+
+for (Printer printer : response.getPrinters()) {
+    LOG.debug("printer information response => {}", printer);
+}
+```
+<b>Update job status</b> (Control  job)
+```java
+//parameter
+//job id : from subscribe job
+//job status : 
+// - QUEUED
+// - IN_PROGRESS
+// - DONE
+// - ERROR
+//job code : from printer
+//job message : from printer
+
+ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.IN_PROGRESS, 200, "OK.");
+LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
+```
 <b>Get job</b> (print job)<br/>
 get all jobs
 ```java
