@@ -73,7 +73,7 @@ cloudPrint.subScribeJob(new JobListener() {
 
 
 
-                //update job
+                //update job status
                 ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.DONE, 200, "success.");
                 LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
             } catch (CloudPrintException ex) {
@@ -103,7 +103,7 @@ try {
     String json = gson.toJson(ticket);
     LOG.debug("json => {}", json);
     
-    //crate job
+    //create job
     SubmitJob submitJob = new SubmitJob();
     submitJob.setContent(content);
     submitJob.setContentType("image/png");
@@ -117,7 +117,7 @@ try {
     LOG.debug("submit job response => {}", response.isSuccess() + "," + response.getMessage());
     LOG.debug("submit job id => {}", response.getJob().getId());
 
-    //control job
+    //control job (update job)
     //...
     //...
 } catch (Exception ex) {
@@ -189,7 +189,7 @@ for (Printer printer : response.getPrinters()) {
 <b>Update job status</b> (Control  job)
 ```java
 //parameter
-//job id : get from subscribe job
+//job id : get from subscribe job (generate by google cloud print)
 //job status : 
 // - QUEUED
 // - IN_PROGRESS
