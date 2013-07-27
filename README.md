@@ -140,6 +140,13 @@ try {
     }
 }
 ```
+<Delete job>
+```java
+//jobId generate by google cloud print
+
+DeleteJobResponse response = cloudPrint.deleteJob(jobId);
+LOG.debug("delete job response => {}", response.isSuccess() + ", " + response.getMessage());
+```
 <b>Update printer informaton</b>
 ```java
 //printer id = "a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b"
