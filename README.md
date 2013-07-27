@@ -189,14 +189,14 @@ for (Printer printer : response.getPrinters()) {
 <b>Update job status</b> (Control  job)
 ```java
 //parameter
-//job id : from subscribe job
+//job id : get from subscribe job
 //job status : 
 // - QUEUED
 // - IN_PROGRESS
 // - DONE
 // - ERROR
-//job code : from printer
-//job message : from printer
+//job code : get from printer
+//job message : get from printer
 
 ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.IN_PROGRESS, 200, "OK.");
 LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
