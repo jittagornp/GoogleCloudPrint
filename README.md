@@ -140,6 +140,11 @@ try {
 <b>Search printer</b>
 ```java
 //search all printers which name is "fax"
+//PrinterStatus.ALL is all printer status 
+// - ONLINE
+// - UNKNOWN
+// - OFFLINE
+// - DORMANT
 SearchPrinterResponse response = cloudPrint.searchPrinter("fax", PrinterStatus.ALL);
 if (!response.isSuccess()) {
     return;
@@ -149,8 +154,16 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer => {}", printer);
 }
 ```
+<b>Delete printer</b>
+```java
+//printer id = "12280cbe-6486-2c98-c65a-22083bd18b5b"
+DeletePrinterResponse response = cloudPrint.deletePrinter("12280cbe-6486-2c98-c65a-22083bd18b5b");
+LOG.debug("delete printer response => {}", response.isSuccess() + ", " + response.getMessage());
+```
 <b>Share printer</b>
 ```java
+//printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
+//target email = "jittagorn@geniustree.co.th"
 SharePrinterResponse response = cloudPrint.sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "jittagorn@geniustree.co.th");
 LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.getMessage());
 ```
