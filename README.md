@@ -87,6 +87,9 @@ cloudPrint.subScribeJob(new JobListener() {
 ```
 <b>Submit job</b> (send job to google cloud print)
 ```java
+//send job to target printer
+//printer id = "810c1d39-981f-cd36-5fdc-951ea5e62613"
+
 InputStream jsonInputStream = null;
 InputStream imageInputStream = null;
 try {
@@ -145,6 +148,7 @@ try {
 // - UNKNOWN
 // - OFFLINE
 // - DORMANT
+
 SearchPrinterResponse response = cloudPrint.searchPrinter("fax", PrinterStatus.ALL);
 if (!response.isSuccess()) {
     return;
@@ -154,9 +158,35 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer => {}", printer);
 }
 ```
+<b>Get job</b>(print job)<br/>
+get all jobs
+```java
+JobResponse response = cloudPrint.getJobs();
+if (!response.isSuccess()) {
+    return;
+}
+
+for (Job job : response.getJobs()) {
+    LOG.debug("job response => {}", job);
+}
+```
+get job of printer
+```java
+//printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
+
+JobResponse response = cloudPrint.getJobOfPrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445");
+if (!response.isSuccess()) {
+    return;
+}
+
+for (Job job : response.getJobs()) {
+    LOG.debug("job response => {}", job);
+}
+```
 <b>Delete printer</b>
 ```java
 //printer id = "12280cbe-6486-2c98-c65a-22083bd18b5b"
+
 DeletePrinterResponse response = cloudPrint.deletePrinter("12280cbe-6486-2c98-c65a-22083bd18b5b");
 LOG.debug("delete printer response => {}", response.isSuccess() + ", " + response.getMessage());
 ```
@@ -164,6 +194,7 @@ LOG.debug("delete printer response => {}", response.isSuccess() + ", " + respons
 ```java
 //printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
 //target email = "jittagorn@geniustree.co.th"
+
 SharePrinterResponse response = cloudPrint.sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "jittagorn@geniustree.co.th");
 LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.getMessage());
 ```
