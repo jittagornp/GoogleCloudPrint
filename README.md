@@ -9,6 +9,7 @@ have problem about register printer (printer capabilities)<br/><br/>
 document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
 
 <h3>Example</h3>
+<b>connect to google cloud print</b>
 ```java
 String email = "YOUR_GOOGLE_EMAIL";
 String password = "YOUR_GOOGLE_PASSWORD";
@@ -18,14 +19,24 @@ GoogleCloudPrint cloudPrint = new GoogleCloudPrint();
 //connect to google cloud print
 cloudPrint.connect(email, password, "geniustree-cloudprint-1.0");
 ```
-subscribe job
+<b>subscribe job</b> (listener job from google talk notification)
 ```java
-//receive job from google talk notification
 cloudPrint.subScribeJob(new JobListener() {
     //
     @Override
-    public void jobArrive(Job job, boolean status, String message) {
-        if (status) {
+    public void jobArrive(Job job, boolean success, String message) {
+    
+        //do something ...
+    
+    }
+});    
+```
+```java
+cloudPrint.subScribeJob(new JobListener() {
+    //
+    @Override
+    public void jobArrive(Job job, boolean success, String message) {
+        if (success) {
             try {
                 LOG.debug("job arrive => {}", job);
                 File directory = new File("C:\\temp\\cloudPrint");
@@ -70,7 +81,7 @@ cloudPrint.subScribeJob(new JobListener() {
     }
 });
 ```
-submit job
+<b>submit job</b> (send job to google cloud print)
 ```java
 InputStream jsonInputStream = null;
 InputStream imageInputStream = null;
@@ -119,7 +130,7 @@ try {
     }
 }
 ```
-share printer
+<b>share printer</b>
 ```java
 SharePrinterResponse response = cloudPrint.sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "jittagorn@geniustree.co.th");
 LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.getMessage());
