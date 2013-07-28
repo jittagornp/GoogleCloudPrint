@@ -156,10 +156,6 @@ printer.setId("a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b");
 printer.setName("Adobe PDF2"); //set new name
 
 UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
-if (!response.isSuccess()) {
-    return;
-}
-
 LOG.debug("update printer response => {}", response.isSuccess() + ", " + response.getMessage());
 ```
 <b>Search printer</b>
