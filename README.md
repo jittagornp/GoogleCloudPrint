@@ -97,6 +97,15 @@ try {
     imageInputStream = Example.class.getResourceAsStream("/testImage.png");
     byte[] content = IOUtils.toByteArray(imageInputStream);
 
+    //get job option from json file
+    //such as  
+    // - document collate 
+    // - page output color 
+    // - page orientation 
+    // - page media size 
+    // - duplex page 
+    // - copies document
+    // ...
     String jsonTicket = IOUtils.toString(jsonInputStream);
     Ticket ticket = gson.fromJson(jsonTicket, Ticket.class);
 
@@ -201,7 +210,7 @@ for (Printer printer : response.getPrinters()) {
 //job code : get from printer
 //job message : get from printer
 
-ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.IN_PROGRESS, 200, "OK.");
+ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.IN_PROGRESS, 100, "PROGRESSING.");
 LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
 ```
 <b>Get job</b> (print job)<br/>
