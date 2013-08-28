@@ -3,9 +3,6 @@ GoogleCloudPrint
 
 Google Cloud Print (GCP) API For Java<br/>
 
-<b>now, it's not complete.</b><br/>
-have problem about register printer (printer capabilities)<br/><br/>
-
 document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
 
 <h3>Example</h3>
