@@ -1,0 +1,31 @@
+*PPD-Adobe: "4.3"
+
+*OpenUI *LanguageLevel/Language Level: PickOne
+*DefaultLanguageLevel: 2
+*LanguageLevel 2/Two 2:
+*CloseUI *LanguageLevel
+
+*OpenUI *ColorDevice/Color Device: PickOne
+*DefaultColorDevice: True
+*ColorDevice True/True:
+*CloseUI *ColorDevice
+
+*OpenUI *ColorSpace/Color Space: PickOne
+*DefaultColorSpace: CMYK
+*ColorSpace CMYK/CMYK:
+*CloseUI *ColorSpace
+
+*OpenUI *TTRasterizer/TT Rasterizer: PickOne
+*DefaultTTRasterizer: Type42
+*TTRasterizer Type42/Type42:
+*CloseUI *TTRasterizer
+
+*OpenUI *FileSystem/File System: PickOne
+*DefaultFileSystem: False
+*FileSystem False/False:
+*CloseUI *FileSystem
+
+*OpenUI *Throughput/Throughput: PickOne
+*DefaultThroughput: 10
+*Throughput 10/10:
+*CloseUI *Throughput

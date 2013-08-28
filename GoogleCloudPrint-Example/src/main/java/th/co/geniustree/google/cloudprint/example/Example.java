@@ -4,14 +4,20 @@
  */
 package th.co.geniustree.google.cloudprint.example;
 
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.jivesoftware.smack.XMPPConnection;
@@ -27,6 +33,7 @@ import th.co.geniustree.google.cloudprint.api.model.PrinterStatus;
 import th.co.geniustree.google.cloudprint.api.model.SubmitJob;
 import th.co.geniustree.google.cloudprint.api.model.Ticket;
 import th.co.geniustree.google.cloudprint.api.model.response.ControlJobResponse;
+import th.co.geniustree.google.cloudprint.api.model.response.DeleteJobResponse;
 import th.co.geniustree.google.cloudprint.api.model.response.DeletePrinterResponse;
 import th.co.geniustree.google.cloudprint.api.model.response.FecthJobResponse;
 import th.co.geniustree.google.cloudprint.api.model.response.JobResponse;
@@ -46,7 +53,7 @@ public class Example {
 
     private static final Logger LOG = LoggerFactory.getLogger(Example.class);
     private static final GoogleCloudPrint cloudPrint = new GoogleCloudPrint();
-    private static Gson gson = new Gson(); 
+    private static Gson gson = new Gson();
 
     static {
         XMPPConnection.DEBUG_ENABLED = true;
@@ -65,15 +72,15 @@ public class Example {
             //getJobs();
             //getJobOfPrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445");
             //fetchJob("dc6929f5-8fdc-5228-1e73-c9dee3298445");
-            //subscribeJob();
+            //jobListener();
             //controlJob("7da91f4a-7faa-2a3d-5cd5-0f2a902a368b", JobStatus.QUEUED, 10, "success.");
             //sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "TARGET_EMAIL_TO_SHARE");
             //getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445");
             //getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445", PrinterStatus.ONLINE);
             //deletePrinter("12280cbe-6486-2c98-c65a-22083bd18b5b");
             //submitJob("810c1d39-981f-cd36-5fdc-951ea5e62613");
-            registerPrinter();
-            //updatePrinter();
+            //registerPrinter();
+            updatePrinter("126271f6-e5d0-fbce-0574-d0c801612439", "Snagit 11");
 
         } catch (CloudPrintException ex) {
             LOG.warn("Exception", ex);
@@ -81,13 +88,20 @@ public class Example {
         } catch (IOException ex) {
             LOG.warn("Exception", ex);
             System.exit(1);
+        } finally {
+            //cloudPrint.disconnect();
         }
     }
 
-    public static void updatePrinter() throws CloudPrintException {
+    public static void deleteJob(String jobId) throws CloudPrintException {
+        DeleteJobResponse response = cloudPrint.deleteJob(jobId);
+        LOG.debug("delete job response => {}", response.isSuccess() + ", " + response.getMessage());
+    }
+
+    public static void updatePrinter(String printerId, String newName) throws CloudPrintException {
         Printer printer = new Printer();
-        printer.setId("a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b");
-        printer.setName("Adobe PDF2");
+        printer.setId(printerId);
+        printer.setName(newName);
 
         UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
         if (!response.isSuccess()) {
@@ -97,44 +111,47 @@ public class Example {
         LOG.debug("update printer response => {}", response.isSuccess() + ", " + response.getMessage());
     }
 
-    public static void registerPrinter() throws CloudPrintException {
+    public static void registerPrinter() throws CloudPrintException, IOException {
         InputStream inputStream = null;
         try {
-            inputStream = Example.class.getResourceAsStream("/json/capabilities.json");
-            String capabilities = IOUtils.toString(inputStream);
-            Object object = gson.fromJson(capabilities, Object.class);
+            URL ppdURL = Example.class.getResource("/Sample.PPD");
+            File ppdFile = new File(ppdURL.getPath());
+            inputStream = new FileInputStream(ppdFile);
 
             Printer printer = new Printer();
-            printer.setName("jittagorn pitakmetagoon");
-            printer.setDisplayName("jittagorn pitakmetagoonp");
+            printer.setName("Test Printer");
+            printer.setDisplayName("Test Printer");
             printer.setProxy("pamarin");
             Set<String> tags = new HashSet<String>();
             tags.add("test");
             tags.add("register");
             printer.setTags(tags);
-            printer.setCapsHash("1234");
+
+            String capsHash = DigestUtils.sha512Hex(inputStream);
+            printer.setCapsHash(capsHash);
             printer.setStatus("REGISTER");
             printer.setDescription("test register printer");
-            printer.setCapabilities(object);
-            printer.setDefaults(object);
+            printer.setCapabilities(ppdFile);
+            printer.setDefaults(ppdFile);
 
             RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
             LOG.debug("response => {}", response);
-
         } catch (IOException ex) {
-            LOG.warn("Exception", ex);
+            throw ex;
+        } catch (CloudPrintException ex) {
+            throw ex;
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException ex) {
-                    LOG.warn("Exception", ex);
+                    throw ex;
                 }
             }
         }
     }
 
-    public static void submitJob(String printerId) {
+    public static void submitJob(String printerId) throws Exception {
         InputStream jsonInputStream = null;
         InputStream imageInputStream = null;
         try {
@@ -154,19 +171,18 @@ public class Example {
             submitJob.setTag(Arrays.asList("koalar", "hippo", "cloud"));
             submitJob.setTicket(ticket);
             submitJob.setTitle("testImage.png");
-
             SubmitJobResponse response = cloudPrint.submitJob(submitJob);
             LOG.debug("submit job response => {}", response.isSuccess() + "," + response.getMessage());
             LOG.debug("submit job id => {}", response.getJob().getId());
             //controlJob(response.getJob().getId(), JobStatus.IN_PROGRESS, 100, "in progress.");
         } catch (Exception ex) {
-            LOG.warn("Exception", ex);
+            throw ex;
         } finally {
             if (jsonInputStream != null) {
                 try {
                     jsonInputStream.close();
                 } catch (IOException ex) {
-                    LOG.warn("Exception", ex);
+                    throw ex;
                 }
             }
 
@@ -174,18 +190,18 @@ public class Example {
                 try {
                     imageInputStream.close();
                 } catch (IOException ex) {
-                    LOG.warn("Exception", ex);
+                    throw ex;
                 }
             }
         }
     }
 
-    public static void subscribeJob() {
-        cloudPrint.subScribeJob(new JobListener() {
+    public static void jobListener() {
+        cloudPrint.addJobListener(new JobListener() {
             //
             @Override
-            public void jobArrive(Job job, boolean status, String message) {
-                if (status) {
+            public void jobArrive(Job job, boolean success, String message) {
+                if (success) {
                     try {
                         LOG.debug("job arrive => {}", job);
                         dowloadFile(job);
@@ -193,7 +209,7 @@ public class Example {
                         //do something...
                         String ticketResponse = cloudPrint.getJobTicket(job.getTicketUrl());
                         LOG.debug("ticketResponse => {}", ticketResponse);
-                        controlJob(job.getId(), JobStatus.IN_PROGRESS, 100, "success.");
+                        controlJob(job.getId(), JobStatus.IN_PROGRESS, 100, "progress.");
                     } catch (CloudPrintException ex) {
                         LOG.warn("Exception", ex);
                     }
