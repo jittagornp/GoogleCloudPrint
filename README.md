@@ -23,9 +23,49 @@ cloudPrint.connect(email, password, "geniustree-cloudprint-1.0");
 ```java
 cloudPrint.disconnect();
 ```
-<b>Subscribe job</b> (listener job from google talk notification)
+<b>Register printer</a>
 ```java
-cloudPrint.subScribeJob(new JobListener() {
+InputStream inputStream = null;
+try {
+    URL ppdURL = Example.class.getResource("/Sample.PPD");
+    File ppdFile = new File(ppdURL.getPath());
+    inputStream = new FileInputStream(ppdFile);
+
+    Printer printer = new Printer();
+    printer.setName("Test Printer");
+    printer.setDisplayName("Test Printer");
+    printer.setProxy("pamarin");
+    Set<String> tags = new HashSet<String>();
+    tags.add("test");
+    tags.add("register");
+    printer.setTags(tags);
+
+    String capsHash = DigestUtils.sha512Hex(inputStream);
+    printer.setCapsHash(capsHash);
+    printer.setStatus("REGISTER");
+    printer.setDescription("test register printer");
+    printer.setCapabilities(ppdFile);
+    printer.setDefaults(ppdFile);
+
+    RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
+    LOG.debug("response => {}", response);
+} catch (IOException ex) {
+    LOG.warn("Exception", ex);
+} catch (CloudPrintException ex) {
+    LOG.warn("Exception", ex);
+} finally {
+    if (inputStream != null) {
+        try {
+            inputStream.close();
+        } catch (IOException ex) {
+            LOG.warn("Exception", ex);
+        }
+    }
+}
+```
+<b>Job listener</b> (listener job from google talk notification)
+```java
+cloudPrint.addJobListener(new JobListener() {
     //
     @Override
     public void jobArrive(Job job, boolean success, String message) {
