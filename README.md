@@ -31,6 +31,7 @@ try {
     /*
     * require
     * - printer name
+    * - display name
     * - proxy
     * - capabilities 
     * - defaults
