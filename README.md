@@ -28,6 +28,18 @@ try {
     File ppdFile = new File(ppdURL.getPath());
     inputStream = new FileInputStream(ppdFile);
 
+    /*
+    * require
+    * - printer name
+    * - proxy
+    * - capabilities 
+    * - defaults
+    * - tag
+    * - status
+    * - description
+    * - capsHash
+    */
+
     Printer printer = new Printer();
     printer.setName("Test Printer");
     printer.setDisplayName("Test Printer");
@@ -73,7 +85,7 @@ cloudPrint.addJobListener(new JobListener() {
 });    
 ```
 ```java
-cloudPrint.subScribeJob(new JobListener() {
+cloudPrint.addJobListener(new JobListener() {
     //
     @Override
     public void jobArrive(Job job, boolean success, String message) {
