@@ -1,7 +1,7 @@
 GoogleCloudPrint
 ================
 
-Google Cloud Print (GCP) API For Java<br/>
+Google Cloud Print (GCP) API for Java<br/>
 
 document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
 
