@@ -1,12 +1,17 @@
 GoogleCloudPrint
 ================
 
-Google Cloud Print (GCP) API For Java<br/>
-
-<b>now, it's not complete.</b><br/>
-have problem about register printer (printer capabilities)<br/><br/>
+Google Cloud Print (GCP) API for Java<br/>
 
 document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
+
+<b>About Capabilities</b> : <br/>
+There are two ways to do that:<br/>
+1) Load printer capabilities and create an XML(XPS format) file using Windows API. Ex.: Using "PrintQueue" class --> GetPrintCapabilitiesAsXml.WriteTo(file)<br/>
+2) Obtaining the PPD file of the PostScript printer.<br/>
+Uploading one of these files, GCP was able to understand the printer capabilities.<br/><br/>
+Suggestion from <b>João Vianey</b> (Google Cloud Print developer)<br/>
+Thank you very much.
 
 <h3>Example</h3>
 <b>Connect to google cloud print</b>
@@ -23,12 +28,65 @@ cloudPrint.connect(email, password, "geniustree-cloudprint-1.0");
 ```java
 cloudPrint.disconnect();
 ```
-<b>Subscribe job</b> (listener job from google talk notification)
+<b>Register printer</a>
 ```java
-cloudPrint.subScribeJob(new JobListener() {
+InputStream inputStream = null;
+try {
+    URL ppdURL = Example.class.getResource("/Sample.PPD");
+    File ppdFile = new File(ppdURL.getPath());
+    inputStream = new FileInputStream(ppdFile);
+
+    /*
+    * require
+    * - printer name
+    * - display name
+    * - proxy
+    * - capabilities 
+    * - defaults
+    * - tag
+    * - status
+    * - description
+    * - capsHash
+    */
+
+    Printer printer = new Printer();
+    printer.setName("Test Printer");
+    printer.setDisplayName("Test Printer");
+    printer.setProxy("pamarin");
+    Set<String> tags = new HashSet<String>();
+    tags.add("test");
+    tags.add("register");
+    printer.setTags(tags);
+
+    String capsHash = DigestUtils.sha512Hex(inputStream);
+    printer.setCapsHash(capsHash);
+    printer.setStatus("REGISTER");
+    printer.setDescription("test register printer");
+    printer.setCapabilities(ppdFile);
+    printer.setDefaults(ppdFile);
+
+    RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
+    LOG.debug("response => {}", response);
+} catch (IOException ex) {
+    LOG.warn("Exception", ex);
+} catch (CloudPrintException ex) {
+    LOG.warn("Exception", ex);
+} finally {
+    if (inputStream != null) {
+        try {
+            inputStream.close();
+        } catch (IOException ex) {
+            LOG.warn("Exception", ex);
+        }
+    }
+}
+```
+<b>Job listener</b> (listener job from google talk notification)
+```java
+cloudPrint.addJobListener(new JobListener() {
     //
     @Override
-    public void jobArrive(Job job, boolean success, String message) {
+    public void onJobArrive(Job job, boolean success, String message) {
     
         //do something ...
     
@@ -36,10 +94,10 @@ cloudPrint.subScribeJob(new JobListener() {
 });    
 ```
 ```java
-cloudPrint.subScribeJob(new JobListener() {
+cloudPrint.addJobListener(new JobListener() {
     //
     @Override
-    public void jobArrive(Job job, boolean success, String message) {
+    public void onJobArrive(Job job, boolean success, String message) {
         if (success) {
             try {
                 LOG.debug("job arrive => {}", job);
