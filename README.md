@@ -74,15 +74,15 @@ try {
         LOG.debug("printer response => {}", print);
     }
 } catch (IOException ex) {
-    LOG.warn("Exception", ex);
+    LOG.warn(null, ex);
 } catch (CloudPrintException ex) {
-    LOG.warn("Exception", ex);
+    LOG.warn(null, ex);
 } finally {
     if (inputStream != null) {
         try {
             inputStream.close();
         } catch (IOException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
         }
     }
 }
@@ -141,7 +141,7 @@ cloudPrint.addJobListener(new JobListener() {
                 ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.DONE, 200, "success.");
                 LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
             } catch (CloudPrintException ex) {
-                LOG.warn("Exception", ex);
+                LOG.warn(null, ex);
             }
         } else {
             LOG.info("job arrive error message => {}", message);
@@ -194,13 +194,13 @@ try {
     //...
     //...
 } catch (Exception ex) {
-    LOG.warn("Exception", ex);
+    LOG.warn(null, ex);
 } finally {
     if (jsonInputStream != null) {
         try {
             jsonInputStream.close();
         } catch (IOException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
         }
     }
 
@@ -208,7 +208,7 @@ try {
         try {
             imageInputStream.close();
         } catch (IOException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
         }
     }
 }
