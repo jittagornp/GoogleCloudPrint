@@ -80,10 +80,10 @@ public class Example {
             updatePrinter("126271f6-e5d0-fbce-0574-d0c801612439", "Snagit 11");
 
         } catch (CloudPrintException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
             System.exit(1);
         } catch (IOException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
             System.exit(1);
         } finally {
             //cloudPrint.disconnect();
@@ -215,7 +215,7 @@ public class Example {
                         LOG.debug("ticketResponse => {}", ticketResponse);
                         controlJob(job.getId(), JobStatus.IN_PROGRESS, 100, "progress.");
                     } catch (CloudPrintException ex) {
-                        LOG.warn("Exception", ex);
+                        LOG.warn(null, ex);
                     }
                 } else {
                     LOG.info("job arrive error message => {}", message);
