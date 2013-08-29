@@ -66,7 +66,12 @@ try {
     printer.setDefaults(ppdFile);
 
     RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
-    LOG.debug("response => {}", response);
+    if (!response.isSuccess()) {
+        return;
+    }
+    for (Printer print : response.getPrinters()) {
+        LOG.debug("printer response => {}", print);
+    }
 } catch (IOException ex) {
     LOG.warn("Exception", ex);
 } catch (CloudPrintException ex) {
