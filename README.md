@@ -11,7 +11,7 @@ There are two ways to do that:<br/>
 2) Obtaining the PPD file of the PostScript printer.<br/>
 Uploading one of these files, GCP was able to understand the printer capabilities.<br/><br/>
 Suggestion from <b>João Vianey</b> (Google Cloud Print developer)<br/>
-Thank you very much
+Thank you very much.
 
 <h3>Example</h3>
 <b>Connect to google cloud print</b>
