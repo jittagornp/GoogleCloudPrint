@@ -10,7 +10,7 @@ There are two ways to do that:<br/>
 1) Load printer capabilities and create an XML(XPS format) file using Windows API. Ex.: Using "PrintQueue" class --> GetPrintCapabilitiesAsXml.WriteTo(file)<br/>
 2) Obtaining the PPD file of the PostScript printer.<br/>
 Uploading one of these files, GCP was able to understand the printer capabilities.<br/><br/>
-Suggestion from João Vianey (Google Cloud Print developer)<br/>
+Suggestion from <b>João Vianey</b> (Google Cloud Print developer)<br/>
 Thank you very much
 
 <h3>Example</h3>
