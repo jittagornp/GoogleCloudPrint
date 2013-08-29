@@ -227,6 +227,7 @@ LOG.debug("delete job response => {}", response.isSuccess() + ", " + response.ge
 Printer printer = new Printer();
 printer.setId("a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b");
 printer.setName("Adobe PDF2"); //set new name
+printer.setDisplayName("Adobe PDF2");
 
 UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
 LOG.debug("update printer response => {}", response.isSuccess() + ", " + response.getMessage());
