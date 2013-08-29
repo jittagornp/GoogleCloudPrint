@@ -119,10 +119,11 @@ public class GoogleCloudPrint {
 
             LOG.info("Connected to {}", GoogleAuthentication.LOGIN_URL + "[" + CLOUD_PRINT_SERVICE + "] ...");
             LOG.info("Connected to {}", GOOGLE_TALK_URL + ":" + GOOGLE_TALK_PORT + "[" + GOOGLE_TALK_SERVICE + "] ...");
+            LOG.info("Start job listener from {}", GOOGLE_TALK_URL + ":" + GOOGLE_TALK_PORT + "[" + GOOGLE_TALK_SERVICE + "] ...");
             //
             listenerJob(email);
         } catch (XMPPException ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
             throw new CloudPrintAuthenticationException(ex);
         }
     }
@@ -155,7 +156,7 @@ public class GoogleCloudPrint {
                 } catch (Exception ex) {
                     success = false;
                     message = ex.getMessage();
-                    LOG.warn("Exception", ex);
+                    LOG.warn(null, ex);
                 } finally {
                     if (fecthResponse != null) {
                         List<Job> jobs = fecthResponse.getJobs();
@@ -205,35 +206,6 @@ public class GoogleCloudPrint {
      */
     private String openConnection(String serviceAndParameters) throws CloudPrintException {
         return openConnection(serviceAndParameters, null);
-//        String response = "";
-//        HttpURLConnection connection = null;
-//        InputStream inputStream = null;
-//        try {
-//            String request = CLOUD_PRINT_URL + serviceAndParameters;
-//            URL url = new URL(request);
-//            connection = (HttpURLConnection) url.openConnection();
-//            connection.addRequestProperty("X-CloudPrint-Proxy", authen.getSource());
-//            connection.addRequestProperty("Content-Length", request.getBytes().length + "");
-//            connection.addRequestProperty("Authorization", "GoogleLogin auth=" + authen.getAuth());
-//            inputStream = connection.getInputStream();
-//            response = ResponseUtils.streamToString(inputStream);
-//        } catch (Exception ex) {
-//            throw new CloudPrintException(ex);
-//        } finally {
-//            if (connection != null) {
-//                connection.disconnect();
-//            }
-//
-//            if (inputStream != null) {
-//                try {
-//                    inputStream.close();
-//                } catch (IOException ex) {
-//                    throw new CloudPrintException(ex);
-//                }
-//            }
-//
-//            return response;
-//        }
     }
 
     /**
@@ -671,7 +643,7 @@ public class GoogleCloudPrint {
             }
             response = openConnection("/submit?output=json&printerid=" + submitJob.getPrinterId(), entity);
         } catch (Exception ex) {
-            LOG.warn("Exception", ex);
+            LOG.warn(null, ex);
             throw new CloudPrintException(ex);
         } finally {
             if (byteArrayInputStream != null) {
@@ -992,7 +964,6 @@ public class GoogleCloudPrint {
             entity.addPart("capsHash", new StringBody(printer.getCapsHash()));
 
             response = openConnection("/register?output=json", entity);
-            LOG.debug("register printer response => {}", response);
         } catch (UnsupportedEncodingException ex) {
             throw new CloudPrintException(ex);
         } finally {

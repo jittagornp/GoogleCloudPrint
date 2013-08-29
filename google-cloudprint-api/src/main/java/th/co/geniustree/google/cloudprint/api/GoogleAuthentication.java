@@ -67,11 +67,11 @@ public class GoogleAuthentication {
                     String key = keyValueSplit[0];
                     String value = keyValueSplit[1];
 
-                    if (key.equals("Auth")) {
+                    if (key.equalsIgnoreCase("Auth")) {
                         auth = value;
-                    } else if (key.equals("SID")) {
+                    } else if (key.equalsIgnoreCase("SID")) {
                         sid = value;
-                    } else if (key.equals("LSID")) {
+                    } else if (key.equalsIgnoreCase("LSID")) {
                         lsid = value;
                     }
                 }

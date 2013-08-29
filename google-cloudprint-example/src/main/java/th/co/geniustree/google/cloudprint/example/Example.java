@@ -69,15 +69,15 @@ public class Example {
             //getJobs();
             //getJobOfPrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445");
             //fetchJob("dc6929f5-8fdc-5228-1e73-c9dee3298445");
-            //jobListener();
+            jobListener();
             //controlJob("7da91f4a-7faa-2a3d-5cd5-0f2a902a368b", JobStatus.QUEUED, 10, "success.");
             //sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "TARGET_EMAIL_TO_SHARE");
             //getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445");
             //getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445", PrinterStatus.ONLINE);
             //deletePrinter("12280cbe-6486-2c98-c65a-22083bd18b5b");
             //submitJob("810c1d39-981f-cd36-5fdc-951ea5e62613");
-            //registerPrinter();
-            updatePrinter("126271f6-e5d0-fbce-0574-d0c801612439", "Snagit 11");
+            registerPrinter();
+            //updatePrinter("126271f6-e5d0-fbce-0574-d0c801612439", "Snagit 11");
 
         } catch (CloudPrintException ex) {
             LOG.warn(null, ex);
@@ -112,7 +112,7 @@ public class Example {
     public static void registerPrinter() throws CloudPrintException, IOException {
         InputStream inputStream = null;
         try {
-            URL ppdURL = Example.class.getResource("/Sample.PPD");
+            URL ppdURL = Example.class.getResource("/ppd/ADIST5K.PPD");
             File ppdFile = new File(ppdURL.getPath());
             inputStream = new FileInputStream(ppdFile);
 
