@@ -78,7 +78,7 @@ try {
 cloudPrint.addJobListener(new JobListener() {
     //
     @Override
-    public void jobArrive(Job job, boolean success, String message) {
+    public void onJobArrive(Job job, boolean success, String message) {
     
         //do something ...
     
@@ -89,7 +89,7 @@ cloudPrint.addJobListener(new JobListener() {
 cloudPrint.addJobListener(new JobListener() {
     //
     @Override
-    public void jobArrive(Job job, boolean success, String message) {
+    public void onJobArrive(Job job, boolean success, String message) {
         if (success) {
             try {
                 LOG.debug("job arrive => {}", job);
