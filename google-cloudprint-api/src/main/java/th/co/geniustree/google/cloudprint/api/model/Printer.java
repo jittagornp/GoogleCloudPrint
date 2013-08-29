@@ -35,6 +35,7 @@ public class Printer {
     private Object capabilities;
     private Object defaults;
     private List<Access> access;
+    private String capsFormat;
     //
     private Gson gson = new Gson();
 
@@ -197,20 +198,12 @@ public class Printer {
         return capabilities;
     }
 
-    public String getCapabilitiesJSON() {
-        return gson.toJson(capabilities);
-    }
-
     public void setCapabilities(Object capabilities) {
         this.capabilities = capabilities;
     }
 
     public Object getDefaults() {
         return defaults;
-    }
-
-    public String getDefaultsJSON() {
-        return gson.toJson(defaults);
     }
 
     public void setDefaults(Object defaults) {
@@ -223,6 +216,14 @@ public class Printer {
 
     public void setAccess(List<Access> access) {
         this.access = access;
+    }
+
+    public String getCapsFormat() {
+        return capsFormat;
+    }
+
+    public void setCapsFormat(String capsFormat) {
+        this.capsFormat = capsFormat;
     }
 
     @Override

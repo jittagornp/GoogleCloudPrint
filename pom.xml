@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>th.co.geniustree</groupId>
-  <artifactId>GoogleCloudPrint</artifactId>
+  <artifactId>google-cloudprint</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>GoogleCloudPrint</name>
+  <name>google-cloudprint</name>
     <modules>
-        <module>GoogleCloudPrint-API</module>
-        <module>GoogleCloudPrint-Example</module>
+        <module>google-cloudprint-api</module>
+        <module>google-cloudprint-example</module>
     </modules>
 </project>

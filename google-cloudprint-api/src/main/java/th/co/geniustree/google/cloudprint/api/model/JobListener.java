@@ -10,5 +10,5 @@ package th.co.geniustree.google.cloudprint.api.model;
  */
 public interface JobListener {
 
-    public void jobArrive(Job job, boolean status, String message);
+    public void onJobArrive(Job job, boolean success, String message);
 }

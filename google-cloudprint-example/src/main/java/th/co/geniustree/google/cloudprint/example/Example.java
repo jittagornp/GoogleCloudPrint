@@ -4,8 +4,6 @@
  */
 package th.co.geniustree.google.cloudprint.example;
 
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +14,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -102,6 +99,7 @@ public class Example {
         Printer printer = new Printer();
         printer.setId(printerId);
         printer.setName(newName);
+        printer.setDisplayName(newName);
 
         UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
         if (!response.isSuccess()) {
@@ -135,7 +133,13 @@ public class Example {
             printer.setDefaults(ppdFile);
 
             RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
-            LOG.debug("response => {}", response);
+            if (!response.isSuccess()) {
+                return;
+            }
+
+            for (Printer print : response.getPrinters()) {
+                LOG.debug("printer response => {}", print);
+            }
         } catch (IOException ex) {
             throw ex;
         } catch (CloudPrintException ex) {
@@ -200,7 +204,7 @@ public class Example {
         cloudPrint.addJobListener(new JobListener() {
             //
             @Override
-            public void jobArrive(Job job, boolean success, String message) {
+            public void onJobArrive(Job job, boolean success, String message) {
                 if (success) {
                     try {
                         LOG.debug("job arrive => {}", job);

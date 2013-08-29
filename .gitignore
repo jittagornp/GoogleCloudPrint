@@ -4,3 +4,5 @@
 *.jar
 *.war
 *.ear
+/google-cloudprint-api/target/
+/google-cloudprint-example/target/
