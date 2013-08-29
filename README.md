@@ -69,6 +69,7 @@ try {
     if (!response.isSuccess()) {
         return;
     }
+    
     for (Printer print : response.getPrinters()) {
         LOG.debug("printer response => {}", print);
     }
