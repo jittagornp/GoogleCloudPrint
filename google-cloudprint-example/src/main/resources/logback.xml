@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    
-    <property name="ROOT_PATH" value="/ServerLog" />
-    
+
     
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -10,15 +8,6 @@
                 %d{HH:mm:ss.SSS} %level [%thread] %logger{10} [%file:%line] %msg%n
             </Pattern>
         </layout>
-    </appender>
-    
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${ROOT_PATH}/logbackLearning.log</file>
-        <encoder>
-            <pattern>
-                %d{HH:mm:ss.SSS} %level [%thread] %logger{10} [%file:%line] %msg%n           
-            </pattern>
-        </encoder>
     </appender>
   
     

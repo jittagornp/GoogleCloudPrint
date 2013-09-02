@@ -112,9 +112,11 @@ public class Example {
     public static void registerPrinter() throws CloudPrintException, IOException {
         InputStream inputStream = null;
         try {
-            URL ppdURL = Example.class.getResource("/ppd/ADIST5K.PPD");
-            File ppdFile = new File(ppdURL.getPath());
-            inputStream = new FileInputStream(ppdFile);
+            //URL ppdURL = Example.class.getResource("/ppd/ADIST5CS.PPD");
+            URL xpsURL = Example.class.getResource("/xml/XPSCapabilities.xml");
+
+            File capabilitiesFile = new File(xpsURL.getPath());
+            inputStream = new FileInputStream(capabilitiesFile);
 
             Printer printer = new Printer();
             printer.setName("Test Printer");
@@ -129,12 +131,12 @@ public class Example {
             printer.setCapsHash(capsHash);
             printer.setStatus("REGISTER");
             printer.setDescription("test register printer");
-            printer.setCapabilities(ppdFile);
-            printer.setDefaults(ppdFile);
+            printer.setCapabilities(capabilitiesFile);
+            printer.setDefaults(capabilitiesFile);
 
             RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
             if (!response.isSuccess()) {
-                return;
+                throw new CloudPrintException(response.getMessage());
             }
 
             for (Printer print : response.getPrinters()) {
