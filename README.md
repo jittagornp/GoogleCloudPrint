@@ -32,9 +32,12 @@ cloudPrint.disconnect();
 ```java
 InputStream inputStream = null;
 try {
-    URL ppdURL = Example.class.getResource("/Sample.PPD");
-    File ppdFile = new File(ppdURL.getPath());
-    inputStream = new FileInputStream(ppdFile);
+    //URL ppdURL = Example.class.getResource("/ppd/ADIST5CS.PPD");
+    URL xpsURL = Example.class.getResource("/xml/XPSCapabilities.xml");
+    
+    File capabilitiesFile = new File(xpsURL.getPath());
+    inputStream = new FileInputStream(capabilitiesFile);
+
 
     /*
     * require
@@ -67,6 +70,7 @@ try {
 
     RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
     if (!response.isSuccess()) {
+        LOG.debug("message = > {}", response.getMessage());
         return;
     }
     
@@ -243,6 +247,7 @@ LOG.debug("update printer response => {}", response.isSuccess() + ", " + respons
 
 SearchPrinterResponse response = cloudPrint.searchPrinter("fax", PrinterStatus.ALL);
 if (!response.isSuccess()) {
+    LOG.debug("message = > {}", response.getMessage());
     return;
 }
 
@@ -256,6 +261,7 @@ for (Printer printer : response.getPrinters()) {
 
 PrinterInformationResponse response = cloudPrint.getPrinterInformation("dc6929f5-8fdc-5228-1e73-c9dee3298445");
 if (!response.isSuccess()) {
+    LOG.debug("message = > {}", response.getMessage());
     return;
 }
 
@@ -283,6 +289,7 @@ get all jobs
 ```java
 JobResponse response = cloudPrint.getJobs();
 if (!response.isSuccess()) {
+    LOG.debug("message = > {}", response.getMessage());
     return;
 }
 
@@ -296,6 +303,7 @@ get job of printer
 
 JobResponse response = cloudPrint.getJobOfPrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445");
 if (!response.isSuccess()) {
+    LOG.debug("message = > {}", response.getMessage());
     return;
 }
 
