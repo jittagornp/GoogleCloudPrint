@@ -136,7 +136,8 @@ public class Example {
 
             RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
             if (!response.isSuccess()) {
-                throw new CloudPrintException(response.getMessage());
+                LOG.debug("message = > {}", response.getMessage());
+                return;
             }
 
             for (Printer print : response.getPrinters()) {
@@ -229,6 +230,7 @@ public class Example {
     public static void fetchJob(String printerId) throws CloudPrintException {
         FecthJobResponse response = cloudPrint.fetchJob(printerId);
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -240,6 +242,7 @@ public class Example {
     public static void getJobOfPrinter(String printerId) throws CloudPrintException {
         JobResponse response = cloudPrint.getJobOfPrinter(printerId);
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -251,6 +254,7 @@ public class Example {
     public static void getJobs() throws CloudPrintException {
         JobResponse response = cloudPrint.getJobs();
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -262,6 +266,7 @@ public class Example {
     public static void getPrinterInformation(String printerId, PrinterStatus status) throws CloudPrintException {
         PrinterInformationResponse response = cloudPrint.getPrinterInformation(printerId, status);
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -273,6 +278,7 @@ public class Example {
     public static void getPrinterInformation(String printerId) throws CloudPrintException {
         PrinterInformationResponse response = cloudPrint.getPrinterInformation(printerId);
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -307,6 +313,7 @@ public class Example {
     public static void searchPrinter(String query, PrinterStatus status) throws CloudPrintException {
         SearchPrinterResponse response = cloudPrint.searchPrinter(query, status);
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
@@ -318,6 +325,7 @@ public class Example {
     public static void searchAllPrinters() throws CloudPrintException {
         SearchPrinterResponse response = cloudPrint.searchPrinters();
         if (!response.isSuccess()) {
+            LOG.debug("message = > {}", response.getMessage());
             return;
         }
 
