@@ -49,14 +49,14 @@ public class GoogleAuthentication {
     public void login(String email, String password, String source) throws GoogleAuthenticationException {
         InputStream inputStream = null;
         try {
-            String request = LOGIN_URL
-                    + "?accountType=" + ACCOUNT_TYPE
-                    + "&Email=" + email
-                    + "&Passwd=" + password
-                    + "&service=" + serviceName
-                    + "&source=" + source;
-
-            URL url = new URL(request);
+            URL url = new URL(new StringBuilder().append(LOGIN_URL)
+                    .append("?accountType=").append(ACCOUNT_TYPE)
+                    .append("&Email=").append(email)
+                    .append("&Passwd=").append(password)
+                    .append("&service=").append(serviceName)
+                    .append("&source=").append(source)
+                    .toString());
+            
             inputStream = url.openStream();
             String response = ResponseUtils.streamToString(inputStream);
 
