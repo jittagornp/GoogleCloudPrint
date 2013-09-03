@@ -21,8 +21,8 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import th.co.geniustree.google.cloudprint.api.GoogleCloudPrint;
+import th.co.geniustree.google.cloudprint.api.exception.CloudPrintAuthenticationException;
 import th.co.geniustree.google.cloudprint.api.exception.CloudPrintException;
-import th.co.geniustree.google.cloudprint.api.exception.GoogleAuthenticationException;
 import th.co.geniustree.google.cloudprint.api.model.Job;
 import th.co.geniustree.google.cloudprint.api.model.JobListener;
 import th.co.geniustree.google.cloudprint.api.model.JobStatus;
@@ -80,7 +80,7 @@ public class Example {
             registerPrinter();
             //updatePrinter("126271f6-e5d0-fbce-0574-d0c801612439", "Snagit 11");
 
-        } catch (GoogleAuthenticationException ex) {
+        } catch (CloudPrintAuthenticationException ex) {
             LOG.warn(null, ex);
             System.exit(1);
         } catch (CloudPrintException ex) {

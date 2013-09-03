@@ -21,6 +21,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
@@ -43,6 +44,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import th.co.geniustree.google.cloudprint.api.exception.CloudPrintAuthenticationException;
 import th.co.geniustree.google.cloudprint.api.exception.GoogleAuthenticationException;
 import th.co.geniustree.google.cloudprint.api.exception.CloudPrintException;
 import th.co.geniustree.google.cloudprint.api.model.response.ControlJobResponse;
@@ -104,7 +106,7 @@ public class GoogleCloudPrint {
      * "companyName-applicationName-VersionID".
      * @throws GoogleAuthenticationException
      */
-    public void connect(String email, String password, String source) throws GoogleAuthenticationException {
+    public void connect(String email, String password, String source) throws CloudPrintAuthenticationException{
         try {
             //Google Cloud Print Service Authen
             authen = new GoogleAuthentication(CLOUD_PRINT_SERVICE);
@@ -122,8 +124,9 @@ public class GoogleCloudPrint {
             //
             listenerJob(email);
         } catch (XMPPException ex) {
-            LOG.warn(null, ex);
-            throw new GoogleAuthenticationException(ex);
+            throw new CloudPrintAuthenticationException(ex);
+        } catch (GoogleAuthenticationException ex) {
+            throw new CloudPrintAuthenticationException(ex);
         }
     }
 
