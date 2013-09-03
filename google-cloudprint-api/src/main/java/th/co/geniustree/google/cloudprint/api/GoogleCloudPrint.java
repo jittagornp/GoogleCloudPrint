@@ -664,7 +664,6 @@ public class GoogleCloudPrint {
             }
             response = openConnection("/submit?output=json&printerid=" + submitJob.getPrinterId(), entity);
         } catch (Exception ex) {
-            LOG.warn(null, ex);
             throw new CloudPrintException(ex);
         } finally {
             if (byteArrayInputStream != null) {
