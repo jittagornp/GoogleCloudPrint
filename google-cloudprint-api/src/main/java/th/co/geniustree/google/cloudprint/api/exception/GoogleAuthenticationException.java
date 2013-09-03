@@ -8,25 +8,25 @@ package th.co.geniustree.google.cloudprint.api.exception;
  *
  * @author jittagorn pitakmetagoon
  */
-public class CloudPrintAuthenticationException extends CloudPrintException {
+public class GoogleAuthenticationException extends Exception {
 
-    public CloudPrintAuthenticationException() {
+    public GoogleAuthenticationException() {
         super();
     }
 
-    public CloudPrintAuthenticationException(String message) {
+    public GoogleAuthenticationException(String message) {
         super(message);
     }
 
-    public CloudPrintAuthenticationException(String message, Throwable cause) {
+    public GoogleAuthenticationException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public CloudPrintAuthenticationException(Throwable cause) {
+    public GoogleAuthenticationException(Throwable cause) {
         super(cause);
     }
 
-    protected CloudPrintAuthenticationException(String message, Throwable cause,
+    protected GoogleAuthenticationException(String message, Throwable cause,
             boolean enableSuppression,
             boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);

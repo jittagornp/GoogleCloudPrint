@@ -10,7 +10,7 @@ import th.co.geniustree.google.cloudprint.api.util.ResponseUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import th.co.geniustree.google.cloudprint.api.exception.CloudPrintAuthenticationException;
+import th.co.geniustree.google.cloudprint.api.exception.GoogleAuthenticationException;
 
 /**
  *
@@ -44,9 +44,9 @@ public class GoogleAuthentication {
      * @param source Short string identifying your application, for logging
      * purposes. This string take from :
      * "companyName-applicationName-VersionID".
-     * @throws CloudPrintAuthenticationException
+     * @throws GoogleAuthenticationException
      */
-    public void login(String email, String password, String source) throws CloudPrintAuthenticationException {
+    public void login(String email, String password, String source) throws GoogleAuthenticationException {
         InputStream inputStream = null;
         try {
             String request = LOGIN_URL
@@ -77,13 +77,13 @@ public class GoogleAuthentication {
                 }
             }
         } catch (IOException ex) {
-            throw new CloudPrintAuthenticationException(ex);
+            throw new GoogleAuthenticationException(ex);
         }finally{
             if(inputStream != null){
                 try {
                     inputStream.close();
                 } catch (IOException ex) {
-                    throw new CloudPrintAuthenticationException(ex);
+                    throw new GoogleAuthenticationException(ex);
                 }
             }
         }

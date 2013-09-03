@@ -21,7 +21,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
@@ -44,7 +43,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import th.co.geniustree.google.cloudprint.api.exception.CloudPrintAuthenticationException;
+import th.co.geniustree.google.cloudprint.api.exception.GoogleAuthenticationException;
 import th.co.geniustree.google.cloudprint.api.exception.CloudPrintException;
 import th.co.geniustree.google.cloudprint.api.model.response.ControlJobResponse;
 import th.co.geniustree.google.cloudprint.api.model.response.DeletePrinterResponse;
@@ -103,9 +102,9 @@ public class GoogleCloudPrint {
      * @param source Short string identifying your application, for logging
      * purposes. This string take from :
      * "companyName-applicationName-VersionID".
-     * @throws CloudPrintAuthenticationException
+     * @throws GoogleAuthenticationException
      */
-    public void connect(String email, String password, String source) throws CloudPrintAuthenticationException {
+    public void connect(String email, String password, String source) throws GoogleAuthenticationException {
         try {
             //Google Cloud Print Service Authen
             authen = new GoogleAuthentication(CLOUD_PRINT_SERVICE);
@@ -124,7 +123,7 @@ public class GoogleCloudPrint {
             listenerJob(email);
         } catch (XMPPException ex) {
             LOG.warn(null, ex);
-            throw new CloudPrintAuthenticationException(ex);
+            throw new GoogleAuthenticationException(ex);
         }
     }
 
@@ -185,9 +184,10 @@ public class GoogleCloudPrint {
         IQ iq = new IQ() {
             @Override
             public String getChildElementXML() {
-                return "<subscribe xmlns=\"google:push\">"
-                        + "<item channel=\"cloudprint.google.com\" from=\"cloudprint.google.com\"/>"
-                        + "</subscribe>";
+                return new StringBuilder().append("<subscribe xmlns=\"google:push\">")
+                        .append("<item channel=\"cloudprint.google.com\" from=\"cloudprint.google.com\"/>")
+                        .append("</subscribe>")
+                        .toString();
             }
         };
 
@@ -226,9 +226,11 @@ public class GoogleCloudPrint {
             httpPost = new HttpPost(request);
             httpPost.setHeader("X-CloudPrint-Proxy", authen.getSource());
             httpPost.setHeader("Authorization", "GoogleLogin auth=" + authen.getAuth());
+
             if (entity != null) {
                 httpPost.setEntity(entity);
             }
+
             HttpResponse httpResponse = httpClient.execute(httpPost);
             inputStream = httpResponse.getEntity().getContent();
             response = ResponseUtils.streamToString(inputStream);
@@ -306,12 +308,13 @@ public class GoogleCloudPrint {
      * @throws CloudPrintException
      */
     public SearchPrinterResponse searchPrinter(String query, PrinterStatus status) throws CloudPrintException {
-        String request = "/search?output=json";
-        request += "&q=" + query;
-        request += "&connection_status=" + status;
+        String response = openConnection(new StringBuilder().append("/search?output=json")
+                .append("&q=")
+                .append(query)
+                .append("&connection_status=")
+                .append(status)
+                .toString());
 
-        String response = openConnection(request);
-        LOG.debug("search printer response => {}", response);
         return gson.fromJson(new StringReader(response), SearchPrinterResponse.class);
     }
 
@@ -545,9 +548,33 @@ public class GoogleCloudPrint {
      * @throws CloudPrintException
      */
     public void downloadFile(String fileUrl, File outputFile) throws CloudPrintException {
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(outputFile);
+            downloadFile(fileUrl, outputStream);
+        } catch (Exception ex) {
+            throw new CloudPrintException(ex);
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException ex) {
+                    throw new CloudPrintException(ex);
+                }
+            }
+        }
+    }
+
+    /**
+     * For download file from google cloud print when job arrive<br/>
+     *
+     * @param fileUrl from job.getFileUrl() when job arrive(job notify) or other
+     * @param outputStream (NOT CLOSE OutputStream)
+     * @throws CloudPrintException
+     */
+    public void downloadFile(String fileUrl, OutputStream outputStream) throws CloudPrintException {
         HttpURLConnection connection = null;
         InputStream inputStream = null;
-        OutputStream outputStream = null;
 
         try {
             URL url = new URL(fileUrl);
@@ -556,8 +583,7 @@ public class GoogleCloudPrint {
             connection.addRequestProperty("Content-Length", fileUrl.getBytes().length + "");
             connection.addRequestProperty("Authorization", "GoogleLogin auth=" + authen.getAuth());
             inputStream = connection.getInputStream();
-            outputStream = new FileOutputStream(outputFile);
-            //
+
             ByteStreams.copy(inputStream, outputStream);
         } catch (Exception ex) {
             throw new CloudPrintException(ex);
@@ -565,14 +591,6 @@ public class GoogleCloudPrint {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException ex) {
-                    throw new CloudPrintException(ex);
-                }
-            }
-
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
                 } catch (IOException ex) {
                     throw new CloudPrintException(ex);
                 }
@@ -741,13 +759,17 @@ public class GoogleCloudPrint {
      * @throws CloudPrintException
      */
     public ControlJobResponse controlJob(String jobid, JobStatus status, int code, String message) throws CloudPrintException {
-        String request = "/control?output=json";
-        request += "&jobid=" + jobid;
-        request += "&status=" + status;
-        request += "&code=" + code;
-        request += "&message=" + message;
+        String response = openConnection(new StringBuilder().append("/control?output=json")
+                .append("&jobid=")
+                .append(jobid)
+                .append("&status=")
+                .append(status)
+                .append("&code=")
+                .append(code)
+                .append("&message=")
+                .append(message)
+                .toString());
 
-        String response = openConnection(request);
         return gson.fromJson(new StringReader(response), ControlJobResponse.class);
     }
 
@@ -807,14 +829,14 @@ public class GoogleCloudPrint {
                 entity.addPart("proxy", new StringBody(printer.getProxy()));
             }
 
-            if (printer.getCapabilities() != null && printer.getCapabilities() instanceof File) {
+            if (isNotNullAndIsFile(printer.getCapabilities())) {
                 File capabilitiesFile = (File) printer.getCapabilities();
                 capabilitiesInputStream = new FileInputStream(capabilitiesFile);
                 InputStreamBody capabilitiesInputStreamBody = new InputStreamBody(capabilitiesInputStream, capabilitiesFile.getName());
                 entity.addPart("capabilities", capabilitiesInputStreamBody);
             }
 
-            if (printer.getDefaults() != null && printer.getDefaults() instanceof File) {
+            if (isNotNullAndIsFile(printer.getDefaults())) {
                 File defaultFile = (File) printer.getDefaults();
                 defaultInputStream = new FileInputStream(defaultFile);
                 InputStreamBody defaultInputStreamBody = new InputStreamBody(defaultInputStream, defaultFile.getName());
@@ -822,7 +844,9 @@ public class GoogleCloudPrint {
             }
 
             if (printer.getTags() != null) {
-                entity.addPart("tag", new StringBody(printer.getTagsJSON()));
+                for (String tag : printer.getTags()) {
+                    entity.addPart("tag", new StringBody(tag));
+                }
             }
 
             if (isNotNullAndEmpty(printer.getStatus())) {
@@ -916,11 +940,11 @@ public class GoogleCloudPrint {
                 throw new CloudPrintException("Require attribute proxy.");
             }
 
-            if (printer.getCapabilities() == null || !(printer.getCapabilities() instanceof File)) {
+            if (!isNotNullAndIsFile(printer.getCapabilities())) {
                 throw new CloudPrintException("Require attribute capability is File.");
             }
 
-            if (printer.getDefaults() == null || !(printer.getDefaults() instanceof File)) {
+            if (!isNotNullAndIsFile(printer.getDefaults())) {
                 throw new CloudPrintException("Require attribute defualts is File.");
             }
 
@@ -1029,12 +1053,16 @@ public class GoogleCloudPrint {
      * @throws CloudPrintException
      */
     public SharePrinterResponse sharePrinter(String printerId, String email) throws CloudPrintException {
-        String request = "/share?output=json";
-        request += "&printerid=" + printerId;
-        request += "&email=" + email;
-        request += "&role=" + RoleShare.APPENDER;
+        StringBuilder builder = new StringBuilder();
+        builder.append("/share?output=json")
+                .append("&printerid=")
+                .append(printerId)
+                .append("&email=")
+                .append(email)
+                .append("&role=")
+                .append(RoleShare.APPENDER);
 
-        String response = openConnection(request);
+        String response = openConnection(builder.toString());
         return gson.fromJson(new StringReader(response), SharePrinterResponse.class);
     }
 
@@ -1072,11 +1100,14 @@ public class GoogleCloudPrint {
             ticketUrl = ticketUrl.replace(CLOUD_PRINT_URL, "");
         }
 
-        LOG.debug("ticketUrl => {}", ticketUrl);
         return openConnection(ticketUrl);
     }
 
     private boolean isNotNullAndEmpty(String string) {
         return string != null && string.length() != 0;
+    }
+
+    private boolean isNotNullAndIsFile(Object object) {
+        return object != null && object instanceof File;
     }
 }
