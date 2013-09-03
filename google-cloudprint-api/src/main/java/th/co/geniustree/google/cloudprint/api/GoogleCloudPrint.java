@@ -312,10 +312,8 @@ public class GoogleCloudPrint {
      */
     public SearchPrinterResponse searchPrinter(String query, PrinterStatus status) throws CloudPrintException {
         String response = openConnection(new StringBuilder().append("/search?output=json")
-                .append("&q=")
-                .append(query)
-                .append("&connection_status=")
-                .append(status)
+                .append("&q=").append(query)
+                .append("&connection_status=").append(status)
                 .toString());
 
         return gson.fromJson(new StringReader(response), SearchPrinterResponse.class);
@@ -762,14 +760,10 @@ public class GoogleCloudPrint {
      */
     public ControlJobResponse controlJob(String jobid, JobStatus status, int code, String message) throws CloudPrintException {
         String response = openConnection(new StringBuilder().append("/control?output=json")
-                .append("&jobid=")
-                .append(jobid)
-                .append("&status=")
-                .append(status)
-                .append("&code=")
-                .append(code)
-                .append("&message=")
-                .append(message)
+                .append("&jobid=").append(jobid)
+                .append("&status=").append(status)
+                .append("&code=").append(code)
+                .append("&message=").append(message)
                 .toString());
 
         return gson.fromJson(new StringReader(response), ControlJobResponse.class);
@@ -1055,16 +1049,12 @@ public class GoogleCloudPrint {
      * @throws CloudPrintException
      */
     public SharePrinterResponse sharePrinter(String printerId, String email) throws CloudPrintException {
-        StringBuilder builder = new StringBuilder();
-        builder.append("/share?output=json")
-                .append("&printerid=")
-                .append(printerId)
-                .append("&email=")
-                .append(email)
-                .append("&role=")
-                .append(RoleShare.APPENDER);
-
-        String response = openConnection(builder.toString());
+        String response = openConnection(new StringBuilder().append("/share?output=json")
+                .append("&printerid=").append(printerId)
+                .append("&email=").append(email)
+                .append("&role=").append(RoleShare.APPENDER)
+                .toString());
+        
         return gson.fromJson(new StringReader(response), SharePrinterResponse.class);
     }
 
