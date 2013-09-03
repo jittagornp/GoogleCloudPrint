@@ -65,8 +65,8 @@ try {
     printer.setCapsHash(capsHash);
     printer.setStatus("REGISTER");
     printer.setDescription("test register printer");
-    printer.setCapabilities(ppdFile);
-    printer.setDefaults(ppdFile);
+    printer.setCapabilities(capabilitiesFile);
+    printer.setDefaults(capabilitiesFile);
 
     RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
     if (!response.isSuccess()) {
