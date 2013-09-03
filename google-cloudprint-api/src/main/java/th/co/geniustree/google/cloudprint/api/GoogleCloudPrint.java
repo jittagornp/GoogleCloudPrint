@@ -104,7 +104,7 @@ public class GoogleCloudPrint {
      * @param source Short string identifying your application, for logging
      * purposes. This string take from :
      * "companyName-applicationName-VersionID".
-     * @throws GoogleAuthenticationException
+     * @throws CloudPrintAuthenticationException
      */
     public void connect(String email, String password, String source) throws CloudPrintAuthenticationException{
         try {
