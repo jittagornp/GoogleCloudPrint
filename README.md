@@ -30,6 +30,11 @@ cloudPrint.disconnect();
 ```
 <b>Register printer</a>
 ```java
+// create and setup printer
+
+RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
+```
+```java
 InputStream inputStream = null;
 try {
     //URL ppdURL = Example.class.getResource("/ppd/ADIST5CS.PPD");
@@ -154,6 +159,11 @@ cloudPrint.addJobListener(new JobListener() {
 });
 ```
 <b>Submit job</b> (send job to google cloud print)
+```java
+//create and setup job
+
+SubmitJobResponse response = cloudPrint.submitJob(submitJob);
+```
 ```java
 //send job to target printer
 //printer id = "810c1d39-981f-cd36-5fdc-951ea5e62613"
