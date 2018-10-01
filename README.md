@@ -338,6 +338,3 @@ LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.
 ```
 develop by <b>jittagorn pitakmetagoon</b><br/>
 java developer Thailand<br/>
-work at Geniustree Co., Ltd<br/>
-blog : <a href="http://na5cent.blogspot.com">na5cent.blogspot.com</a><br/>
-email : jittagorn@geniustree.co.th
