@@ -1,21 +1,25 @@
-GoogleCloudPrint
-================
+# Google Cloud Print
 
-Google Cloud Print (GCP) API for Java<br/>
+> Google Cloud Print (GCP) API for Java
 
-document : <a href="https://developers.google.com/cloud-print/">https://developers.google.com/cloud-print/</a><br/><br/>
+Document : [https://developers.google.com/cloud-print/](https://developers.google.com/cloud-print/)
 
-<b>About Capabilities</b> : <br/>
-There are two ways to do that:<br/>
-1) Load printer capabilities and create an XML(XPS format) file using Windows API. Ex.: Using "PrintQueue" class --> GetPrintCapabilitiesAsXml.WriteTo(file)<br/>
-2) Obtaining the PPD file of the PostScript printer.<br/>
-Uploading one of these files, GCP was able to understand the printer capabilities.<br/><br/>
-Recommended from <b>João Vianey</b> (Google Cloud Print developer)<br/>
+# About Capabilities 
+
+There are two ways to do that:  
+
+1. Load printer capabilities and create an XML(XPS format) file using Windows API. Ex.: Using "PrintQueue" class --> GetPrintCapabilitiesAsXml.WriteTo(file)
+2. Obtaining the PPD file of the PostScript printer.
+Uploading one of these files, GCP was able to understand the printer capabilities.
+  
+Recommended from **João Vianey** (Google Cloud Print developer)
 Thank you very much.
 
-<h3>Example</h3>
-<b>Connect to google cloud print</b>
-```java
+# Example
+
+### Connect to google cloud print
+
+```java  
 String email = "YOUR_GOOGLE_EMAIL";
 String password = "YOUR_GOOGLE_PASSWORD";
 
@@ -24,16 +28,20 @@ GoogleCloudPrint cloudPrint = new GoogleCloudPrint();
 //connect to google cloud print
 cloudPrint.connect(email, password, "geniustree-cloudprint-1.0");
 ```
-<b>Disconnect from google cloud print</b>
+### Disconnect from google cloud print
 ```java
 cloudPrint.disconnect();
 ```
-<b>Register printer</a>
+
+### Register printer
 ```java
 // create and setup printer
 
 RegisterPrinterResponse response = cloudPrint.registerPrinter(printer);
 ```
+
+and 
+
 ```java
 InputStream inputStream = null;
 try {
@@ -96,7 +104,10 @@ try {
     }
 }
 ```
-<b>Job listener</b> (listener job from google talk notification)
+### Job listener 
+
+listener job from google talk notification
+
 ```java
 cloudPrint.addJobListener(new JobListener() {
     //
@@ -108,6 +119,9 @@ cloudPrint.addJobListener(new JobListener() {
     }
 });    
 ```
+
+and
+
 ```java
 cloudPrint.addJobListener(new JobListener() {
     //
@@ -158,12 +172,19 @@ cloudPrint.addJobListener(new JobListener() {
     }
 });
 ```
-<b>Submit job</b> (send job to google cloud print)
+
+### Submit job 
+
+send job to google cloud print
+
 ```java
 //create and setup job
 
 SubmitJobResponse response = cloudPrint.submitJob(submitJob);
 ```
+
+and 
+
 ```java
 //send job to target printer
 //printer id = "810c1d39-981f-cd36-5fdc-951ea5e62613"
@@ -227,14 +248,17 @@ try {
     }
 }
 ```
-<b>Delete job</b>
+### Delete job
+
 ```java
 //jobId generate by google cloud print
 
 DeleteJobResponse response = cloudPrint.deleteJob(jobId);
 LOG.debug("delete job response => {}", response.isSuccess() + ", " + response.getMessage());
 ```
-<b>Update printer informaton</b>
+
+### Update printer informaton
+
 ```java
 //printer id = "a1dbe503-eb96-6d26-dc7b-a290a1cfaf3b"
 
@@ -246,7 +270,8 @@ printer.setDisplayName("Adobe PDF2");
 UpdatePrinterResponse response = cloudPrint.updatePrinter(printer);
 LOG.debug("update printer response => {}", response.isSuccess() + ", " + response.getMessage());
 ```
-<b>Search printer</b>
+### Search printer
+
 ```java
 //search all printers which name is "fax"
 //PrinterStatus.ALL is all printer status 
@@ -265,7 +290,9 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer => {}", printer);
 }
 ```
-<b>Get printer information</a>
+
+### Get printer information
+
 ```java
 //printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
 
@@ -279,7 +306,9 @@ for (Printer printer : response.getPrinters()) {
     LOG.debug("printer information response => {}", printer);
 }
 ```
-<b>Update job status</b> (Control  job)
+
+### Update job status (Control  job)
+
 ```java
 //parameter
 //job id : get from subscribe job (generate by google cloud print)
@@ -294,8 +323,11 @@ for (Printer printer : response.getPrinters()) {
 ControlJobResponse response = cloudPrint.controlJob(job.getId(), JobStatus.IN_PROGRESS, 100, "PROGRESSING.");
 LOG.debug("control job response=> {}", response.isSuccess() + ", " + response.getMessage());
 ```
-<b>Get job</b> (print job)<br/>
-get all jobs
+
+### Get job (print job)
+
+Get all jobs
+
 ```java
 JobResponse response = cloudPrint.getJobs();
 if (!response.isSuccess()) {
@@ -307,7 +339,9 @@ for (Job job : response.getJobs()) {
     LOG.debug("job response => {}", job);
 }
 ```
-get job of printer
+
+Get job of printer
+
 ```java
 //printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
 
@@ -321,14 +355,18 @@ for (Job job : response.getJobs()) {
     LOG.debug("job response => {}", job);
 }
 ```
-<b>Delete printer</b>
+
+### Delete printer
+
 ```java
 //printer id = "12280cbe-6486-2c98-c65a-22083bd18b5b"
 
 DeletePrinterResponse response = cloudPrint.deletePrinter("12280cbe-6486-2c98-c65a-22083bd18b5b");
 LOG.debug("delete printer response => {}", response.isSuccess() + ", " + response.getMessage());
 ```
-<b>Share printer</b>
+
+### Share printer
+
 ```java
 //printer id = "dc6929f5-8fdc-5228-1e73-c9dee3298445"
 //target email = "jittagorn@geniustree.co.th"
@@ -336,5 +374,3 @@ LOG.debug("delete printer response => {}", response.isSuccess() + ", " + respons
 SharePrinterResponse response = cloudPrint.sharePrinter("dc6929f5-8fdc-5228-1e73-c9dee3298445", "jittagorn@geniustree.co.th");
 LOG.debug("share printer message => {}", response.isSuccess() + ", " + response.getMessage());
 ```
-develop by <b>jittagorn pitakmetagoon</b><br/>
-java developer Thailand<br/>
